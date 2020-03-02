@@ -14,10 +14,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springboot.version>2.2.5.RELEASE</springboot.version>
         <surefire.version>3.0.0-M4</surefire.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
     </properties>
 
     <modules>
         <module>real-estate-data-store</module>
+        <module>real-estate-eureka</module>
+        <module>real-estate-gateway</module>
     </modules>
 
     <build>
