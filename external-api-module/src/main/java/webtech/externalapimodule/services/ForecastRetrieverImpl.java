@@ -3,7 +3,6 @@ package webtech.externalapimodule.service;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -15,10 +14,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import webtech.externalapimodule.model.ForecastResponse;
-/*
-import com.weather.model.ForecastResponse;
-import com.weather.model.exceptions.ExternalServiceGatewayException;
-import com.weather.model.exceptions.ExternalServiceInvocationException;*/
+import webtech.externalapimodule.model.exceptions.ExternalServiceGatewayException;
+import webtech.externalapimodule.model.exceptions.ExternalServiceInvocationException;
 
 @Service
 @SessionScope
@@ -79,23 +76,19 @@ public class ForecastRetrieverImpl implements ForecastRetriever {
     @Override
     public ForecastResponse getForcastFor(String longitude, String latitude) {
         try {
-            System.out.println("ForecastRetrivereImpl getForecastFor()");
             ForecastResponse forecast = restTemplate.getForObject(getDarkskyBaseUrl(),
                     ForecastResponse.class, buildURLMap(longitude, latitude));
             return forecast;
-        }/* catch (HttpStatusCodeException httpStatusEx) {
+        } catch (HttpStatusCodeException httpStatusEx) {
             // Darksky only return HTTPStatus code (not error response) so catch exceptions here and convert to
             // our common Exception for easier error handling
-//			System.out.println("HttpStatus from ForecastIO is: " + httpStatusEx.getRawStatusCode());
+			// System.out.println("HttpStatus from ForecastIO is: " + httpStatusEx.getRawStatusCode());
             throw new ExternalServiceInvocationException(FORECAST_IO_SERVICE_NAME, httpStatusEx.getRawStatusCode());
         } catch (Exception ex) {
             // This is thrown when can't even get to API (e.g. network error)!
             throw new ExternalServiceGatewayException(FORECAST_IO_SERVICE_NAME, ex);
-        }*/
-        catch (Exception e) {
-            System.out.println("Caught in main.");
         }
-        return null;
+        //return null;
     }
 
 }
