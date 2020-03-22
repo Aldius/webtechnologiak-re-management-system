@@ -8,7 +8,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>real-estate-eureka</artifactId>
-	<name>Eureka Server for Real Estate Management System</name>
+	<name>Real Estate Eureka Server</name>
 
 	<dependencies>
 		<dependency>

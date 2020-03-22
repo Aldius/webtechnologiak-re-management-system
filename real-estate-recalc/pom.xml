@@ -7,15 +7,9 @@
 		<artifactId>re-project</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>hu.elte.webtechnologiak</groupId>
 	<artifactId>real-estate-recalc</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>real-estate-recalc</name>
-	<description>Recalc module</description>
-
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
+	<name>Real Estate Recalculation Engine</name>
+	<description>Real Estate Recalculation Engine</description>
 
 	<dependencies>
 			<dependency>
