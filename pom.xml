@@ -22,6 +22,7 @@
         <module>real-estate-eureka</module>
         <module>real-estate-gateway</module>
         <module>real-estate-recalc</module>
+        <module>real-estate-external-api-module</module>
     </modules>
 
     <build>
