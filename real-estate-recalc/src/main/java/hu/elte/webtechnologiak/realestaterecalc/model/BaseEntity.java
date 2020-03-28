@@ -21,4 +21,7 @@ public class BaseEntity {
     @Column
     protected int status;
 
+    @Column
+    private String uniqueId;
+
 }
