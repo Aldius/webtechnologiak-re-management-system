@@ -29,38 +29,27 @@ public class RealEstateController {
     }
 
     @GetMapping("/id")
-    public ResponseEntity<RealEstate> findById(@RequestParam long id) {
-        try {
-            return ResponseEntity.ok(realEstateService.findById(id));
-        } catch (DataStoreException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<RealEstate> findById(@RequestParam long id) throws DataStoreException {
+        return ResponseEntity.ok(realEstateService.findById(id));
+    }
+
+    @GetMapping("/uniqueId")
+    public ResponseEntity<RealEstate> findByUId(@RequestParam String uniqueId) throws DataStoreException {
+        return ResponseEntity.ok(realEstateService.findByUId(uniqueId));
     }
 
     @PostMapping("/add")
     public ResponseEntity<RealEstate> addRealEstate(@RequestBody RealEstate realEstate) {
-        try {
-            return ResponseEntity.ok(realEstateService.addRealEstate(realEstate));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok(realEstateService.addRealEstate(realEstate));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<RealEstate> updateRealEstate(@RequestBody RealEstate realEstate) {
-        try {
-            return ResponseEntity.ok(realEstateService.updateRealEstate(realEstate));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<RealEstate> updateRealEstate(@RequestBody RealEstate realEstate) throws DataStoreException {
+        return ResponseEntity.ok(realEstateService.updateRealEstate(realEstate));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<RealEstate> deleteRealEstate(@RequestParam long id) {
-        try {
-            return ResponseEntity.ok(realEstateService.deleteRealEstate(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<RealEstate> deleteRealEstate(@RequestParam String uniqueId) throws DataStoreException {
+        return ResponseEntity.ok(realEstateService.deleteRealEstate(uniqueId));
     }
 }

@@ -32,19 +32,24 @@ public class RealEstateService {
                 .orElseThrow(() -> new DataStoreException("Real estate by id " + id + " not found!"));
     }
 
+    public RealEstate findByUniqueId(String id) throws DataStoreException {
+        return realEstateRepository.findByUniqueId(id)
+                .orElseThrow(() -> new DataStoreException("Real estate by id " + id + " not found!"));
+    }
+
     public RealEstate addRealEstate(RealEstate realEstate) {
         return realEstateRepository.save(realEstate);
     }
 
     public RealEstate updateRealEstate(RealEstate realEstate) throws DataStoreException {
-        RealEstate current = findById(realEstate.getId());
+        RealEstate current = findByUniqueId(realEstate.getUniqueId());
         realEstate.setVersion(current.getVersion());
 
         return realEstateRepository.save(realEstate);
     }
 
-    public RealEstate deleteRealEstate(long id) throws DataStoreException {
-        RealEstate current = findById(id);
+    public RealEstate deleteRealEstate(RealEstate realEstate) throws DataStoreException {
+        RealEstate current = findByUniqueId(realEstate.getUniqueId());
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
         return realEstateRepository.save(current);
     }
