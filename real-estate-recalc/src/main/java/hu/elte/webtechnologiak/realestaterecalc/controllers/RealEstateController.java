@@ -55,10 +55,10 @@ public class RealEstateController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<RealEstate> deleteRealEstate(@RequestParam long id) {
+    @PutMapping("/delete")
+    public ResponseEntity<RealEstate> deleteRealEstate(@RequestBody RealEstate realEstate) {
         try {
-            return ResponseEntity.ok(realEstateService.deleteRealEstate(id));
+            return ResponseEntity.ok(realEstateService.deleteRealEstate(realEstate));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

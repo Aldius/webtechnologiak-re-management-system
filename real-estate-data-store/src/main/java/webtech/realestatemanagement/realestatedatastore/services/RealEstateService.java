@@ -1,7 +1,12 @@
 package webtech.realestatemanagement.realestatedatastore.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.SessionScope;
 import webtech.realestatemanagement.realestatedatastore.model.BaseEntity;
 import webtech.realestatemanagement.realestatedatastore.model.entities.RealEstate;
@@ -13,10 +18,12 @@ import webtech.realestatemanagement.realestatedatastore.services.exceptions.Data
 public class RealEstateService {
 
     private RealEstateRepository realEstateRepository;
+    private RestCommunicator restCommunicator;
 
     @Autowired
-    public RealEstateService(RealEstateRepository realEstateRepository) {
+    public RealEstateService(RealEstateRepository realEstateRepository, RestCommunicator restCommunicator) {
         this.realEstateRepository = realEstateRepository;
+        this.restCommunicator = restCommunicator;
     }
 
     public Iterable<RealEstate> findAll() {
@@ -32,20 +39,47 @@ public class RealEstateService {
                 .orElseThrow(() -> new DataStoreException("Real estate by id " + id + " not found!"));
     }
 
+    public RealEstate findByUId(String uId) throws DataStoreException {
+        return realEstateRepository.findByUniqueId(uId)
+                .orElseThrow(() -> new DataStoreException("Real estate by unique id " + uId + " not found!"));
+    }
+
     public RealEstate addRealEstate(RealEstate realEstate) {
-        return realEstateRepository.save(realEstate);
+        realEstate.setUniqueId("RE" + realEstateRepository.findMaxId().longValue());
+        realEstate = realEstateRepository.save(realEstate);
+
+        try {
+            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/realEstate/add", realEstate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return realEstate;
     }
 
     public RealEstate updateRealEstate(RealEstate realEstate) throws DataStoreException {
-        RealEstate current = findById(realEstate.getId());
+        RealEstate current = findByUId(realEstate.getUniqueId());
         realEstate.setVersion(current.getVersion());
+        realEstate = realEstateRepository.save(realEstate);
 
-        return realEstateRepository.save(realEstate);
+        try {
+            restCommunicator.sendPutRequest("http://real-estate-recalc/realEstate/update", realEstate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return realEstate;
     }
 
-    public RealEstate deleteRealEstate(long id) throws DataStoreException {
-        RealEstate current = findById(id);
+    public RealEstate deleteRealEstate(String uId) throws DataStoreException {
+        RealEstate current = findByUId(uId);
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
-        return realEstateRepository.save(current);
+        current = realEstateRepository.save(current);
+
+        try {
+            restCommunicator.sendPutRequest("http://real-estate-recalc/realEstate/delete", current);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return current;
     }
 }
