@@ -21,6 +21,7 @@ import user_management.models.JwtResponse;
 import user_management.models.UserDTO;
 
 @RestController
+@RequestMapping("/")
 @CrossOrigin
 public class JwtAuthenticationController {
 	@Autowired
@@ -31,6 +32,11 @@ public class JwtAuthenticationController {
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
+
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ResponseEntity<?> get() {
+		return ResponseEntity.ok().build();
+	}
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
