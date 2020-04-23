@@ -65,11 +65,11 @@ public class ForecastRetrieverImpl implements ForecastRetriever {
     }
 
     Map<String,String> buildURLMap(String longitude, String latitude) {
-        Map<String,String> arguments = new HashMap<String,String>();
-        arguments.put(API_KEY, getDarkskyApiKey());
-        arguments.put(LONGITUDE, longitude);
-        arguments.put(LATITUDE, latitude);
-        return arguments;
+            Map<String,String> arguments = new HashMap<String,String>();
+            arguments.put(API_KEY, getDarkskyApiKey());
+            arguments.put(LONGITUDE, longitude);
+            arguments.put(LATITUDE, latitude);
+            return arguments;
     }
 
     @Override
