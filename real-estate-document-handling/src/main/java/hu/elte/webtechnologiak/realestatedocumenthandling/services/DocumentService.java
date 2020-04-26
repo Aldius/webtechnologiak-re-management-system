@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.BaseEntity;
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.entities.DataStoreEntity;
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.entities.Document;
-import hu.elte.webtechnologiak.realestatedocumenthandling.model.repositories.DataStoreEntityRepository;
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.repositories.DocumentRepository;
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.utils.DocumentType;
+import hu.elte.webtechnologiak.realestatedocumenthandling.services.exceptions.DataStoreException;
 import hu.elte.webtechnologiak.realestatedocumenthandling.services.exceptions.DocumentHandlingException;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.mime.MimeType;
@@ -28,12 +28,12 @@ import java.io.IOException;
 public class DocumentService {
 
     DocumentRepository documentRepository;
-    DataStoreEntityRepository dataStoreEntityRepository;
+    DataStoreEntityService dataStoreEntityService;
 
     @Autowired
-    public DocumentService(DocumentRepository documentRepository, DataStoreEntityRepository dataStoreEntityRepository) {
+    public DocumentService(DocumentRepository documentRepository, DataStoreEntityService dataStoreEntityService) {
         this.documentRepository = documentRepository;
-        this.dataStoreEntityRepository = dataStoreEntityRepository;
+        this.dataStoreEntityService = dataStoreEntityService;
     }
 
     public Iterable<Document> findAllDocument() {
@@ -44,9 +44,8 @@ public class DocumentService {
         return documentRepository.findAllByStatus(BaseEntity.ACTIVE_ENTITY_STATUS);
     }
 
-    public Iterable<Document> findAllDocumentByEntity(String uniqueId) throws DocumentHandlingException {
-        DataStoreEntity dataStoreEntity = dataStoreEntityRepository.findByUniqueIdAndStatus(uniqueId, BaseEntity.ACTIVE_ENTITY_STATUS)
-                .orElseThrow(() -> new DocumentHandlingException("Entity by uid " + uniqueId + " not found!"));
+    public Iterable<Document> findAllDocumentByEntity(String uniqueId) throws DataStoreException {
+        DataStoreEntity dataStoreEntity = dataStoreEntityService.findActiveByUniqueId(uniqueId);
         return dataStoreEntity.getDocuments();
     }
 
@@ -56,10 +55,9 @@ public class DocumentService {
     }
 
     public Document createDocument(String documentJson, MultipartFile file, String uid)
-            throws DocumentHandlingException, IOException, MimeTypeException {
+            throws DocumentHandlingException, IOException, MimeTypeException, DataStoreException {
         Document document = new ObjectMapper().readValue(documentJson, Document.class);
-        DataStoreEntity dataStoreEntity = dataStoreEntityRepository.findByUniqueIdAndStatus(uid, BaseEntity.ACTIVE_ENTITY_STATUS)
-                .orElseThrow(() -> new DocumentHandlingException("Entity by uid " + uid + " not found!"));
+        DataStoreEntity dataStoreEntity = dataStoreEntityService.findActiveByUniqueId(uid);
         checkDocumentTypeValidity(uid, document.getDocumentType());
         document.setDataStoreEntity(dataStoreEntity);
         document.setData(file.getBytes());

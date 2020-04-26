@@ -2,6 +2,7 @@ package hu.elte.webtechnologiak.realestatedocumenthandling.controllers;
 
 import hu.elte.webtechnologiak.realestatedocumenthandling.model.entities.Document;
 import hu.elte.webtechnologiak.realestatedocumenthandling.services.DocumentService;
+import hu.elte.webtechnologiak.realestatedocumenthandling.services.exceptions.DataStoreException;
 import hu.elte.webtechnologiak.realestatedocumenthandling.services.exceptions.DocumentHandlingException;
 import org.apache.tika.mime.MimeTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class DocumentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Iterable<Document>> findAllByEntity(@RequestParam String uid) throws DocumentHandlingException {
+    public ResponseEntity<Iterable<Document>> findAllByEntity(@RequestParam String uid) throws DataStoreException {
         return ResponseEntity.ok(documentService.findAllDocumentByEntity(uid));
     }
 
@@ -34,15 +35,17 @@ public class DocumentController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addDocument(@RequestPart("properties") String documentJson,
-                                                @RequestPart("file") MultipartFile file, @RequestParam String uid) {
-        try {
+                                                @RequestPart("file") MultipartFile file, @RequestParam String uid)
+            throws MimeTypeException, IOException, DataStoreException, DocumentHandlingException {
+        return ResponseEntity.ok(documentService.createDocument(documentJson, file, uid));
+        /*try {
             return ResponseEntity.ok(documentService.createDocument(documentJson, file, uid));
-        } catch (DocumentHandlingException e) {
+        } catch (DocumentHandlingException | DataStoreException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (IOException | MimeTypeException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("File upload error!");
-        }
+        }*/
     }
 
     @PatchMapping("/{id}")

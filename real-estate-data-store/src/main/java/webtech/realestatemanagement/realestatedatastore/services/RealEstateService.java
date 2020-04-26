@@ -50,6 +50,7 @@ public class RealEstateService {
 
         try {
             System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/realEstate/add", realEstate));
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", realEstate);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,6 +77,7 @@ public class RealEstateService {
 
         try {
             restCommunicator.sendPutRequest("http://real-estate-recalc/realEstate/delete", current);
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
         } catch (Exception e) {
             e.printStackTrace();
         }

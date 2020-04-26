@@ -14,12 +14,14 @@ public class AppraisalService {
 
     private AppraisalRepository appraisalRepository;
     private RealEstateService realEstateService;
+    private RestCommunicator restCommunicator;
 
     @Autowired
     public AppraisalService(AppraisalRepository appraisalRepository,
-                            RealEstateService realEstateService) {
+                            RealEstateService realEstateService, RestCommunicator restCommunicator) {
         this.appraisalRepository = appraisalRepository;
         this.realEstateService = realEstateService;
+        this.restCommunicator = restCommunicator;
     }
 
     public Iterable<Appraisal> findAll() {
@@ -47,20 +49,42 @@ public class AppraisalService {
     public Appraisal addAppraisal(Appraisal appraisal) throws DataStoreException {
         realEstateService.findByUId(appraisal.getRealEstateId());
         appraisal.setUniqueId("AP" + appraisalRepository.findMaxId().longValue());
-        return appraisalRepository.save(appraisal);
+        appraisal = appraisalRepository.save(appraisal);
+
+        try {
+            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/appraisal/add", appraisal));
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", appraisal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appraisal;
     }
 
     public Appraisal updateAppraisal(Appraisal appraisal) throws DataStoreException {
         realEstateService.findByUId(appraisal.getRealEstateId());
         Appraisal current = findByUId(appraisal.getUniqueId());
         appraisal.setVersion(current.getVersion());
+        appraisal = appraisalRepository.save(appraisal);
 
-        return appraisalRepository.save(appraisal);
+        try {
+            restCommunicator.sendPutRequest("http://real-estate-recalc/appraisal/update", appraisal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appraisal;
     }
 
     public Appraisal deleteAppraisal(String uId) throws DataStoreException {
         Appraisal current = findByUId(uId);
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
-        return appraisalRepository.save(current);
+        current = appraisalRepository.save(current);
+
+        try {
+            restCommunicator.sendPutRequest("http://real-estate-recalc/appraisal/delete", current);
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return current;
     }
 }
