@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @AllArgsConstructor
@@ -24,4 +25,8 @@ public class DataStoreEntity extends BaseEntity {
 
     @OneToMany(targetEntity=Document.class, mappedBy="dataStoreEntity",cascade= CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Document> documents = new ArrayList<>();
+
+    public List<Document> getDocuments() {
+        return documents.stream().filter(doc -> doc.getStatus() == BaseEntity.ACTIVE_ENTITY_STATUS).collect(Collectors.toList());
+    }
 }

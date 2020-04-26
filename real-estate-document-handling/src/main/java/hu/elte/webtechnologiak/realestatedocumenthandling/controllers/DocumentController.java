@@ -22,6 +22,11 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Document>> findAllByEntity(@RequestParam String uid) throws DocumentHandlingException {
+        return ResponseEntity.ok(documentService.findAllDocumentByEntity(uid));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Document> findById(@PathVariable long id) throws DocumentHandlingException {
         return ResponseEntity.ok(documentService.findDocument(id));
@@ -39,15 +44,21 @@ public class DocumentController {
             return ResponseEntity.badRequest().body("File upload error!");
         }
     }
-/*
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Document> updateDocument(Document document) {
-        return ResponseEntity.ok(documentService.updateDocument(document));
+    public ResponseEntity<Document> updateDocument(@PathVariable long id, @RequestBody Document document) throws DocumentHandlingException {
+        return ResponseEntity.ok(documentService.updateDocument(id, document));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Document> deleteDocument(long id) {
-        return ResponseEntity.ok(documentService.deleteDocument(id));
-    }*/
+    public ResponseEntity<?> deleteDocument(@PathVariable long id) throws DocumentHandlingException {
+        documentService.deleteDocument(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<?> downloadDocument(@PathVariable long id) throws DocumentHandlingException {
+        return documentService.downloadDocument(id);
+    }
 
 }
