@@ -1,40 +1,95 @@
 package hu.elte.webtechnologiak.realestaterecalc.model.entities;
 
-import hu.elte.webtechnologiak.realestaterecalc.model.BaseEntity;
-import hu.elte.webtechnologiak.realestaterecalc.model.utils.RealEstateMainType;
-import hu.elte.webtechnologiak.realestaterecalc.model.utils.RealEstateSubType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "RealEstates")
+@Table(name = "T_REALESTATE")
 public class RealEstate extends BaseEntity {
 
-    @Column(nullable = false)
-    private String address;
+	@JsonIgnore
+	@OneToMany(mappedBy = "realEstate")
+	private List<Appraisal> appraisals;
 
-    @Column
-    private double livingArea;
+	@Basic
+	private Double marketValueOccy;
 
-    @Column
-    private double landArea;
+	@Basic
+	private String marketValueCcy;
 
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private RealEstateMainType mainType;
+	@Basic
+	private Double marketValueBccy;
 
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private RealEstateSubType subType;
+	@Basic
+	private Double marketValueUsd;
 
-    @Column
-    private int constructionYear;
+	@Basic
+	private Double marketValueEur;
+
+	public List<Appraisal> getAppraisals() {
+		return appraisals;
+	}
+
+	public void setAppraisals( List<Appraisal> appraisals ) {
+		this.appraisals = appraisals;
+	}
+
+	public Double getMarketValueOccy() {
+		return marketValueOccy;
+	}
+
+	public void setMarketValueOccy( Double marketValueOccy ) {
+		this.marketValueOccy = marketValueOccy;
+	}
+
+	public String getMarketValueCcy() {
+		return marketValueCcy;
+	}
+
+	public void setMarketValueCcy( String marketValueCcy ) {
+		this.marketValueCcy = marketValueCcy;
+	}
+
+	public Double getMarketValueBccy() {
+		return marketValueBccy;
+	}
+
+	public void setMarketValueBccy( Double marketValueBccy ) {
+		this.marketValueBccy = marketValueBccy;
+	}
+
+	public Double getMarketValueUsd() {
+		return marketValueUsd;
+	}
+
+	public void setMarketValueUsd( Double marketValueUsd ) {
+		this.marketValueUsd = marketValueUsd;
+	}
+
+	public Double getMarketValueEur() {
+		return marketValueEur;
+	}
+
+	public void setMarketValueEur( Double marketValueEur ) {
+		this.marketValueEur = marketValueEur;
+	}
+
+	@Override
+	public String toString() {
+		return "RealEstate{" +
+			       "marketValueOccy=" + marketValueOccy +
+			       ", marketValueCcy='" + marketValueCcy + '\'' +
+			       ", marketValueBccy=" + marketValueBccy +
+			       ", marketValueUsd=" + marketValueUsd +
+			       ", marketValueEur=" + marketValueEur +
+			       ", version=" + version +
+			       ", status=" + status +
+			       '}';
+	}
+
 }

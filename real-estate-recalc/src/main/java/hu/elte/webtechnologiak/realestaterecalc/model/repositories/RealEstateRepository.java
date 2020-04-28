@@ -7,8 +7,7 @@ import java.util.Optional;
 
 @Repository
 public interface RealEstateRepository extends CrudRepository<RealEstate, Long> {
-    Iterable<RealEstate> findAllByStatus(int status);
 
-    Optional<RealEstate> findByUniqueId(String uniqueId);
+	Optional<RealEstate> findByUniqueId(String uniqueId);
 
 }
