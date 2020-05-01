@@ -6,11 +6,13 @@ import hu.elte.webtechnologiak.realestaterecalc.model.entities.RealEstate;
 import hu.elte.webtechnologiak.realestaterecalc.model.repositories.AppraisalRepository;
 import hu.elte.webtechnologiak.realestaterecalc.model.repositories.RealEstateRepository;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.Algorithm;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcAppraisalCurrencies;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcTotalAppraisedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class RecalcService {
 
 	static {
 		recalcAlgs.add(new CalcTotalAppraisedValue());
+		recalcAlgs.add(new CalcAppraisalCurrencies());
 	}
 
 	private final AppraisalRepository appraisalRepository;
@@ -29,12 +32,12 @@ public class RecalcService {
 	private final RealEstateRepository realEstateRepository;
 
 	@Autowired
-	public RecalcService( AppraisalRepository appraisalRepository, RealEstateRepository realEstateRepository ) {
+	public RecalcService( final AppraisalRepository appraisalRepository, final RealEstateRepository realEstateRepository ) {
 		this.appraisalRepository = appraisalRepository;
 		this.realEstateRepository = realEstateRepository;
 	}
 
-	public void runAllAlgorithms() {
+	public void runAllAlgorithms() throws IOException {
 		final List<Appraisal> activeAppraisals = appraisalRepository.findAllByStatus(BaseEntity.ACTIVE_ENTITY_STATUS);
 
 		for (final Appraisal activeAppraisal : activeAppraisals) {
