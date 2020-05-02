@@ -97,7 +97,7 @@
     <li>Description: Endpoint for registration</li>
     <li>Method: POST</li>
     <li>Endpoint: .../register</li>
-    <li>Required data (JSON body): <i>{ "username": "string", "password": "string", "email": "string", "fullName": "string" }</i>
+    <li>Required data (JSON body): <i>{ "username": "string", "password": "string", "email": "string", "fullName": "string" }</i></li>
     <li>Response: 200 OK, and the JSON object with the user information</li>
     <li>Errors: 400 Bad Request, if the username or the email address is already taken</li>
  </li>
@@ -105,7 +105,7 @@
     <li>Description: Endpoint for authentication</li>
     <li>Method: POST</li>
     <li>Endpoint: .../authenticate</li>
-    <li>Required data (JSON body): <i>{ "username": "string", "password": "string" }</i>
+    <li>Required data (JSON body): <i>{ "username": "string", "password": "string" }</i></li>
     <li>Response: 200 OK, and a generated JWT Token that belongs to the user</li>
     <li>Errors: 400 Bad Request, if the username or password is incorrect</li>
  </li>
@@ -113,6 +113,7 @@
     <li>Description: Endpoint for assigning a role to a specified user</li>
     <li>Method: POST</li>
     <li>Endpoint: .../role/assign?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
+    <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
     <li>Response: 200 OK, if the process is successful</li>
     <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
  </li>
@@ -120,6 +121,7 @@
     <li>Description: Endpoint for removing a role from a specified user</li>
     <li>Method: POST</li>
     <li>Endpoint: .../role/remove?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
+    <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
     <li>Response: 200 OK, if the process is successful</li>
     <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
  </li>
