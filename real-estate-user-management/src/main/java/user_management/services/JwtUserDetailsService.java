@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import user_management.dao.UserDao;
+import user_management.exceptions.UserTakenException;
 import user_management.models.DAOUser;
 import user_management.models.UserDTO;
 
@@ -33,7 +34,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 				new ArrayList<>());
 	}
 	
-	public DAOUser save(UserDTO user) {
+	public DAOUser save(UserDTO user) throws UserTakenException {
+		DAOUser oldUser = userDao.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+
+		if (oldUser != null) throw new UserTakenException();
+
 		DAOUser newUser = new DAOUser();
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
