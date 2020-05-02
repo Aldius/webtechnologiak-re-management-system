@@ -2,6 +2,8 @@ package hu.elte.webtechnologiak.realestaterecalc.controllers;
 
 import hu.elte.webtechnologiak.realestaterecalc.model.entities.Appraisal;
 import hu.elte.webtechnologiak.realestaterecalc.model.entities.RealEstate;
+import hu.elte.webtechnologiak.realestaterecalc.model.entities.dto.AppraisalDto;
+import hu.elte.webtechnologiak.realestaterecalc.model.entities.dto.RealEstateDto;
 import hu.elte.webtechnologiak.realestaterecalc.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class NotificationController {
 	}
 
 	@PostMapping("/realEstate/add")
-	public ResponseEntity<RealEstate> addRealEstate( @RequestBody final RealEstate realEstate ) {
+	public ResponseEntity<RealEstate> addRealEstate( @RequestBody final RealEstateDto realEstate ) {
 		try {
 			return ResponseEntity.ok(notificationService.addRealEstate(realEstate));
 		} catch (final Exception e) {
@@ -40,7 +42,7 @@ public class NotificationController {
 	}
 
 	@PostMapping("/realEstate/remove")
-	public ResponseEntity<RealEstate> removeRealEstate( @RequestBody final RealEstate realEstate ) {
+	public ResponseEntity<RealEstate> removeRealEstate( @RequestBody final RealEstateDto realEstate ) {
 		try {
 			return ResponseEntity.ok(notificationService.removeRealEstate(realEstate));
 		} catch (final Exception e) {
@@ -49,7 +51,7 @@ public class NotificationController {
 	}
 
 	@PostMapping("/appraisal/add")
-	public ResponseEntity<Appraisal> addAppraisal( @RequestBody final Appraisal appraisal ) {
+	public ResponseEntity<Appraisal> addAppraisal( @RequestBody final AppraisalDto appraisal ) {
 		try {
 			return ResponseEntity.ok(notificationService.addAppraisal(appraisal));
 		} catch (final Exception e) {
@@ -67,7 +69,7 @@ public class NotificationController {
 	}
 
 	@PostMapping("/appraisal/remove")
-	public ResponseEntity<Appraisal> removeAppraisal( @RequestBody final Appraisal appraisal ) {
+	public ResponseEntity<Appraisal> removeAppraisal( @RequestBody final AppraisalDto appraisal ) {
 		try {
 			return ResponseEntity.ok(notificationService.removeAppraisal(appraisal));
 		} catch (final Exception e) {

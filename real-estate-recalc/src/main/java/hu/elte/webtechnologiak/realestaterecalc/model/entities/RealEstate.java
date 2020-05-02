@@ -23,13 +23,34 @@ public class RealEstate extends BaseEntity {
 	private String marketValueCcy;
 
 	@Basic
-	private Double marketValueBccy;
+	private Double marketValueHuf;
 
 	@Basic
 	private Double marketValueUsd;
 
 	@Basic
 	private Double marketValueEur;
+
+	@Basic
+	private Double longitude;
+
+	@Basic
+	private Double latitude;
+
+	@Basic
+	private String country;
+
+	@Basic
+	private String city;
+
+	@Basic
+	private String street;
+
+	@Basic
+	private String streetNumber;
+
+	@Basic
+	private String zipCode;
 
 	public List<Appraisal> getAppraisals() {
 		return appraisals;
@@ -55,12 +76,12 @@ public class RealEstate extends BaseEntity {
 		this.marketValueCcy = marketValueCcy;
 	}
 
-	public Double getMarketValueBccy() {
-		return marketValueBccy;
+	public Double getMarketValueHuf() {
+		return marketValueHuf;
 	}
 
-	public void setMarketValueBccy( Double marketValueBccy ) {
-		this.marketValueBccy = marketValueBccy;
+	public void setMarketValueHuf( Double marketValueHuf ) {
+		this.marketValueHuf = marketValueHuf;
 	}
 
 	public Double getMarketValueUsd() {
@@ -79,15 +100,77 @@ public class RealEstate extends BaseEntity {
 		this.marketValueEur = marketValueEur;
 	}
 
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude( Double longitude ) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude( Double latitude ) {
+		this.latitude = latitude;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry( String country ) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity( String city ) {
+		this.city = city;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet( String street ) {
+		this.street = street;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber( String streetNumber ) {
+		this.streetNumber = streetNumber;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode( String zipCode ) {
+		this.zipCode = zipCode;
+	}
+
 	@Override
 	public String toString() {
 		return "RealEstate{" +
 			       "marketValueOccy=" + marketValueOccy +
 			       ", marketValueCcy='" + marketValueCcy + '\'' +
-			       ", marketValueBccy=" + marketValueBccy +
+			       ", marketValueHuf=" + marketValueHuf +
 			       ", marketValueUsd=" + marketValueUsd +
 			       ", marketValueEur=" + marketValueEur +
-			       ", version=" + version +
+			       ", longitude=" + longitude +
+			       ", latitude=" + latitude +
+			       ", country='" + country + '\'' +
+			       ", city='" + city + '\'' +
+			       ", street='" + street + '\'' +
+			       ", streetNumber='" + streetNumber + '\'' +
+			       ", zipCode='" + zipCode + '\'' +
 			       ", status=" + status +
 			       '}';
 	}

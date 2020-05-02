@@ -7,6 +7,8 @@ import hu.elte.webtechnologiak.realestaterecalc.model.repositories.AppraisalRepo
 import hu.elte.webtechnologiak.realestaterecalc.model.repositories.RealEstateRepository;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.Algorithm;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcAppraisalCurrencies;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcReCurrencies;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcReMarketValue;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcTotalAppraisedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class RecalcService {
 	static {
 		recalcAlgs.add(new CalcTotalAppraisedValue());
 		recalcAlgs.add(new CalcAppraisalCurrencies());
+		recalcAlgs.add(new CalcReMarketValue());
+		recalcAlgs.add(new CalcReCurrencies());
 	}
 
 	private final AppraisalRepository appraisalRepository;

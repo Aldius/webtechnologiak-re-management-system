@@ -37,4 +37,12 @@ public class Appraisal extends BaseEntity {
     @Enumerated(EnumType.ORDINAL)
     private ValuationType valuationType;
 
+    private Double appraisedMarketValueOfBuildingsOccy;
+
+    private String appraisedMarketValueOfBuildingsCcy;
+
+    private Double appraisedMarketValueOfLandOccy;
+
+    private String appraisedMarketValueOfLandCcy;
+
 }
