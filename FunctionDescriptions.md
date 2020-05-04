@@ -98,42 +98,52 @@
 
 <ul>
  <li>Registration:
+   <ul>
     <li>Description: Endpoint for registration</li>
     <li>Method: POST</li>
     <li>Endpoint: .../register</li>
     <li>Required data (JSON body): <i>{ "username": "string", "password": "string", "email": "string", "fullName": "string" }</i></li>
     <li>Response: 200 OK, and the JSON object with the user information</li>
     <li>Errors: 400 Bad Request, if the username or the email address is already taken</li>
+   </ul>
  </li>
  <li>Authentication: 
+  <ul>
     <li>Description: Endpoint for authentication</li>
     <li>Method: POST</li>
     <li>Endpoint: .../authenticate</li>
     <li>Required data (JSON body): <i>{ "username": "string", "password": "string" }</i></li>
     <li>Response: 200 OK, and a generated JWT Token that belongs to the user</li>
     <li>Errors: 400 Bad Request, if the username or password is incorrect</li>
+   </ul>
  </li>
  <li>Assign role: 
+   <ul>
     <li>Description: Endpoint for assigning a role to a specified user</li>
     <li>Method: POST</li>
     <li>Endpoint: .../role/assign?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
     <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
     <li>Response: 200 OK, if the process is successful</li>
     <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
+     </ul>
  </li>
  <li>Remove role: 
+   <ul>
     <li>Description: Endpoint for removing a role from a specified user</li>
     <li>Method: POST</li>
     <li>Endpoint: .../role/remove?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
     <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
     <li>Response: 200 OK, if the process is successful</li>
     <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
+     </ul>
  </li>
  <li>Get all roles: 
+   <ul>
     <li>Description: Endpoint for getting all the assigned roles for a specified user</li>
     <li>Method: GET</li>
     <li>Endpoint: .../role/get-all?username=<b>{username}</b></li>
     <li>Response: 200 OK, and the collection of the assigned roles</li>
     <li>Errors: 400 Bad Request, if the user is not found</li>
+   </ul>
  </li>
 </ul>
