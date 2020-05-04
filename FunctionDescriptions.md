@@ -95,16 +95,45 @@
 
 
 ## User handling
-- Registration: _api_url/register endpoint. Request method POST. <br>Required data (JSON): <br>{ "username": "string", "password": "string", "email": "string", "fullName": "string" }<br>Response: <br>- JSON object with the user information (the one defined above), except the password, if the registration is successfull.<br>- If the username or the email address is already taken, 400 BadRequest._
 
-- Authentication: _api_url/authenticate endpoint. Request method POST. <br>Required data (JSON): <br>{ "username": "string", "password": "string" }<br>Response: <br>- A generated JWT Token that belongs to the user.<br>- If the username or password is incorrect, 401 UnAuthorized._
-
-- Profile creation: _api_url/create-profile endpoint. Request method POST, the user has to be authenticated to be able to access this endpoint. <br>Required data (JSON): <br>{ "name": "string", "displayName": "string" }<br>Response: <br>- JSON object with the created profile information.<br>- If the user is not authorized, 401 UnAuthorized._
-
-- Query all profiles: _api_url/profiles endpoint. Request method GET, the user has to be authenticated to be able to access this endpoint. <br>Response: <br>- JSON array with the profile informations.<br>- If the user is not authorized, 401 UnAuthorized._
-
-- Role creation: _api_url/create-role endpoint. Request method POST, the user has to be authenticated to be able to access this endpoint. <br>Required data (JSON): <br>{ "name": "string", "displayName": "string" }<br>Response: <br>- JSON object with the created role information.<br>- If the user is not authorized, 401 UnAuthorized._
-
-- Assign role to profile: _api_url/assign-role endpoint. Request method POST, the user has to be authenticated to be able to access this endpoint. <br>Required data (JSON): <br>{ "roleId": "int", "profileId": "int" }<br>Response: <br>- 200 OK, if the assignment is successfull.<br>- If the user is not authorized, 401 UnAuthorized._
-
-- Query if the profile has a specific role assigned: _api_url/profile-has-role endpoint. Request method POST, the user has to be authenticated to be able to access this endpoint. <br>Required data (JSON): <br>{ "roleId": "int", "profileId": "int" }<br>Response: <br>- A boolean regarding the result.<br>- If the user is not authorized, 401 UnAuthorized._
+<ul>
+ <li>Registration:
+    <li>Description: Endpoint for registration</li>
+    <li>Method: POST</li>
+    <li>Endpoint: .../register</li>
+    <li>Required data (JSON body): <i>{ "username": "string", "password": "string", "email": "string", "fullName": "string" }</i></li>
+    <li>Response: 200 OK, and the JSON object with the user information</li>
+    <li>Errors: 400 Bad Request, if the username or the email address is already taken</li>
+ </li>
+ <li>Authentication: 
+    <li>Description: Endpoint for authentication</li>
+    <li>Method: POST</li>
+    <li>Endpoint: .../authenticate</li>
+    <li>Required data (JSON body): <i>{ "username": "string", "password": "string" }</i></li>
+    <li>Response: 200 OK, and a generated JWT Token that belongs to the user</li>
+    <li>Errors: 400 Bad Request, if the username or password is incorrect</li>
+ </li>
+ <li>Assign role: 
+    <li>Description: Endpoint for assigning a role to a specified user</li>
+    <li>Method: POST</li>
+    <li>Endpoint: .../role/assign?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
+    <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
+    <li>Response: 200 OK, if the process is successful</li>
+    <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
+ </li>
+ <li>Remove role: 
+    <li>Description: Endpoint for removing a role from a specified user</li>
+    <li>Method: POST</li>
+    <li>Endpoint: .../role/remove?username=<b>{username}</b>&roleName=<b>{roleName}</b></li>
+    <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
+    <li>Response: 200 OK, if the process is successful</li>
+    <li>Errors: 400 Bad Request, if the user or role is not found. 401 Unauthorized, if the user is not authenticated or the token expired</li>
+ </li>
+ <li>Get all roles: 
+    <li>Description: Endpoint for getting all the assigned roles for a specified user</li>
+    <li>Method: GET</li>
+    <li>Endpoint: .../role/get-all?username=<b>{username}</b></li>
+    <li>Response: 200 OK, and the collection of the assigned roles</li>
+    <li>Errors: 400 Bad Request, if the user is not found</li>
+ </li>
+</ul>

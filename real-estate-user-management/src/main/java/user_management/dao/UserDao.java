@@ -8,4 +8,5 @@ import user_management.models.DAOUser;
 @Repository
 public interface UserDao extends CrudRepository<DAOUser, Integer> {
 	DAOUser findByUsername(String username);
+	DAOUser findByUsernameOrEmail(String username, String email);
 }
