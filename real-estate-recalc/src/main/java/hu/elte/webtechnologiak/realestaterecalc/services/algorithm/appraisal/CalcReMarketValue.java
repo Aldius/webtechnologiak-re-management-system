@@ -5,7 +5,6 @@ import hu.elte.webtechnologiak.realestaterecalc.model.entities.BaseEntity;
 import hu.elte.webtechnologiak.realestaterecalc.model.entities.RealEstate;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.Algorithm;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static java.util.Comparator.comparing;
@@ -19,10 +18,11 @@ public class CalcReMarketValue implements Algorithm {
 		if (entity instanceof RealEstate) {
 			final RealEstate realEstate = (RealEstate) entity;
 			final Optional<Appraisal> maybeAppraisal = realEstate.getAppraisals().stream()
-				                            .max(comparing(Appraisal::getAppraisalDate, nullsFirst(naturalOrder())));
+				                                           .max(comparing(Appraisal::getAppraisalDate, nullsFirst(naturalOrder())));
 			if (maybeAppraisal.isPresent()) {
 				final Appraisal appraisal = maybeAppraisal.get();
 				realEstate.setMarketValueOccy(appraisal.getTotalAppraisedValue());
+				realEstate.setMarketValueCcy(appraisal.getTotalAppraisedValueCcy());
 			}
 		}
 	}

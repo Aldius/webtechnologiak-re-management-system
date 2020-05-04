@@ -88,16 +88,16 @@ public class RealEstateController {
 
     //in the url use "+" between place names, i.e. location/Budapest,Pázmány+Péter+stny.+1c,1117
     @RequestMapping(value = "/location/{city},{publicSpace},{state}", method=RequestMethod.GET, produces="application/json")
-    public ForecastResponse getLocationWithForecast(@PathVariable("city") String city,
+    public Location getLocationWithForecast(@PathVariable("city") String city,
                                         @PathVariable("publicSpace") String publicSpace,
                                         @PathVariable("state") String state) {
         MapAPIResponse mapResponse = this.getMapInfoRetriever().getMapInfoFor(city, publicSpace, state);
         Location loc = mapResponse.getGeometry().getLocation();
-        ForecastResponse forecastResponse = forecastRetriever.getForcastFor(String.valueOf(loc.getLatitude()),
+        /*ForecastResponse forecastResponse = forecastRetriever.getForcastFor(String.valueOf(loc.getLatitude()),
                 String.valueOf(loc.getLongitude()));
         forecastResponse.setFormattedAddress(mapResponse.getFormattedAddress());
-        forecastResponse.setSearchAddress(buildSearchAddress(city,state));
-        return forecastResponse;
+        forecastResponse.setSearchAddress(buildSearchAddress(city,state));*/
+        return loc;
     }
 
 

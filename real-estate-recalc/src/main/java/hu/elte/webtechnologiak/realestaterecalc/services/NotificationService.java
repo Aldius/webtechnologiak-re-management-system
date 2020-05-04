@@ -37,9 +37,6 @@ public class NotificationService {
 		realEstate.setStreet(realEstateDto.getStreet());
 		realEstate.setStreetNumber(realEstateDto.getStreetNumber());
 		realEstate.setZipCode(realEstateDto.getZipCode());
-
-		//TODO get lat and long
-
 		realEstate.setStatus(BaseEntity.ACTIVE_ENTITY_STATUS);
 		return realEstateRepository.save(realEstate);
 	}

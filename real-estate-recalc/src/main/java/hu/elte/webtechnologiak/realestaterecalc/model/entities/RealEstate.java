@@ -32,6 +32,21 @@ public class RealEstate extends BaseEntity {
 	private Double marketValueEur;
 
 	@Basic
+	private Double weatherDiscountedValueOccy;
+
+	@Basic
+	private String weatherDiscountedValueCcy;
+
+	@Basic
+	private Double weatherDiscountedValueHuf;
+
+	@Basic
+	private Double weatherDiscountedValueUsd;
+
+	@Basic
+	private Double weatherDiscountedValueEur;
+
+	@Basic
 	private Double longitude;
 
 	@Basic
@@ -154,6 +169,46 @@ public class RealEstate extends BaseEntity {
 
 	public void setZipCode( String zipCode ) {
 		this.zipCode = zipCode;
+	}
+
+	public Double getWeatherDiscountedValueOccy() {
+		return weatherDiscountedValueOccy;
+	}
+
+	public void setWeatherDiscountedValueOccy( Double weatherDiscountedValueOccy ) {
+		this.weatherDiscountedValueOccy = weatherDiscountedValueOccy;
+	}
+
+	public String getWeatherDiscountedValueCcy() {
+		return weatherDiscountedValueCcy;
+	}
+
+	public void setWeatherDiscountedValueCcy( String weatherDiscountedValueCcy ) {
+		this.weatherDiscountedValueCcy = weatherDiscountedValueCcy;
+	}
+
+	public Double getWeatherDiscountedValueHuf() {
+		return weatherDiscountedValueHuf;
+	}
+
+	public void setWeatherDiscountedValueHuf( Double weatherDiscountedValueHuf ) {
+		this.weatherDiscountedValueHuf = weatherDiscountedValueHuf;
+	}
+
+	public Double getWeatherDiscountedValueUsd() {
+		return weatherDiscountedValueUsd;
+	}
+
+	public void setWeatherDiscountedValueUsd( Double weatherDiscountedValueUsd ) {
+		this.weatherDiscountedValueUsd = weatherDiscountedValueUsd;
+	}
+
+	public Double getWeatherDiscountedValueEur() {
+		return weatherDiscountedValueEur;
+	}
+
+	public void setWeatherDiscountedValueEur( Double weatherDiscountedValueEur ) {
+		this.weatherDiscountedValueEur = weatherDiscountedValueEur;
 	}
 
 	@Override

@@ -7,9 +7,12 @@ import hu.elte.webtechnologiak.realestaterecalc.model.repositories.AppraisalRepo
 import hu.elte.webtechnologiak.realestaterecalc.model.repositories.RealEstateRepository;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.Algorithm;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcAppraisalCurrencies;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcGeoCodes;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcReCurrencies;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcReMarketValue;
 import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcTotalAppraisedValue;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcWeatherDiscValue;
+import hu.elte.webtechnologiak.realestaterecalc.services.algorithm.appraisal.CalcWeatherDiscValueCurrencies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
@@ -28,7 +31,10 @@ public class RecalcService {
 		recalcAlgs.add(new CalcTotalAppraisedValue());
 		recalcAlgs.add(new CalcAppraisalCurrencies());
 		recalcAlgs.add(new CalcReMarketValue());
+		recalcAlgs.add(new CalcGeoCodes());
 		recalcAlgs.add(new CalcReCurrencies());
+		recalcAlgs.add(new CalcWeatherDiscValue());
+		recalcAlgs.add(new CalcWeatherDiscValueCurrencies());
 	}
 
 	private final AppraisalRepository appraisalRepository;
