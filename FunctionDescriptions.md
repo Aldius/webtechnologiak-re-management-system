@@ -87,8 +87,11 @@
 
 
 ## Recalc module
-- Function XYZ1: _Please provide a description_
-- Function XYZ2: _Please Provide a description_
+- POST /notification/{realEstate,appraisal}/add: notifies the module, that an entity has been created and stores it in the database.
+- POST /notification/{realEstate,appraisal}/remove: notifies the module, that an entity has been marked as inactive and marks it inactive in the database as well.
+- POST /notification/{realEstate,appraisal}/get: retrieves the entity from the database, given the entities unique id. Example message body: { "uniqueId" : "AP000001" }.
+- POST /recalc/run/all: runs all recalculation algorithms including currency recalculation. Post empty message body.
+- POST /recalc//run/currencies: runs only currency recalculation algorithms. Post empty message body.
 
 
 ## User handling

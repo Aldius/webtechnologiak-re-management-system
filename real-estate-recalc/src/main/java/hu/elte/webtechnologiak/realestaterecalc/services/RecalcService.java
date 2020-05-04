@@ -27,6 +27,8 @@ public class RecalcService {
 
 	private static final List<Algorithm> recalcAlgs = new ArrayList<>();
 
+	private static final List<Algorithm> currencyAlgs = new ArrayList<>();
+
 	static {
 		recalcAlgs.add(new CalcTotalAppraisedValue());
 		recalcAlgs.add(new CalcAppraisalCurrencies());
@@ -35,6 +37,10 @@ public class RecalcService {
 		recalcAlgs.add(new CalcReCurrencies());
 		recalcAlgs.add(new CalcWeatherDiscValue());
 		recalcAlgs.add(new CalcWeatherDiscValueCurrencies());
+
+		currencyAlgs.add(new CalcAppraisalCurrencies());
+		currencyAlgs.add(new CalcReCurrencies());
+		currencyAlgs.add(new CalcWeatherDiscValueCurrencies());
 	}
 
 	private final AppraisalRepository appraisalRepository;
@@ -48,10 +54,18 @@ public class RecalcService {
 	}
 
 	public void runAllAlgorithms() throws IOException {
+		runAlgs(recalcAlgs);
+	}
+
+	public void runCurrencyAlgorithms() throws IOException {
+		runAlgs(currencyAlgs);
+	}
+
+	private void runAlgs( final List<Algorithm> algorithms ) throws IOException {
 		final List<Appraisal> activeAppraisals = appraisalRepository.findAllByStatus(BaseEntity.ACTIVE_ENTITY_STATUS);
 
 		for (final Appraisal activeAppraisal : activeAppraisals) {
-			for (final Algorithm recalcAlg : recalcAlgs) {
+			for (final Algorithm recalcAlg : algorithms) {
 				recalcAlg.execute(activeAppraisal);
 			}
 		}
@@ -61,11 +75,11 @@ public class RecalcService {
 		final List<RealEstate> activeRealEstates = realEstateRepository.findAllByStatus(BaseEntity.ACTIVE_ENTITY_STATUS);
 
 		for (final RealEstate activeRealEstate : activeRealEstates) {
-			for (final Algorithm recalcAlg : recalcAlgs) {
+			for (final Algorithm recalcAlg : algorithms) {
 				recalcAlg.execute(activeRealEstate);
 			}
 		}
-		
+
 		realEstateRepository.saveAll(activeRealEstates);
 	}
 
