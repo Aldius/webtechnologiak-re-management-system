@@ -50,7 +50,7 @@ public class AppraisalService {
                 .orElseThrow(() -> new DataStoreException("Appraisal by unique id " + uniqueId + " not found!"));
     }
 
-    public Appraisal addAppraisal(Appraisal appraisal) throws DataStoreException {
+    public Appraisal addAppraisal(Appraisal appraisal, String token) throws DataStoreException {
         realEstateService.findByUId(appraisal.getRealEstateId());
         appraisal.setUniqueId("AP" + appraisalRepository.findMaxId().longValue());
         final Appraisal savedAppraisal = appraisalRepository.save(appraisal);
@@ -65,7 +65,7 @@ public class AppraisalService {
         appraisalDto.setAppraisedMarketValueOfLandCcy(savedAppraisal.getAppraisedMarketValueOfLandCcy());
 
         try {
-            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/add", appraisalDto));
+            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/add", appraisalDto, token));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class AppraisalService {
         return appraisalRepository.save(appraisal);
     }
 
-    public Appraisal deleteAppraisal(String uId) throws DataStoreException {
+    public Appraisal deleteAppraisal(String uId, String token) throws DataStoreException {
         Appraisal current = findByUId(uId);
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
         final Appraisal savedAppraisal = appraisalRepository.save(current);
@@ -90,7 +90,7 @@ public class AppraisalService {
         appraisalDto.setUniqueId(savedAppraisal.getUniqueId());
 
         try {
-            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/remove", appraisalDto));
+            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/remove", appraisalDto, token));
         } catch (Exception e) {
             e.printStackTrace();
         }

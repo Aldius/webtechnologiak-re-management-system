@@ -23,6 +23,7 @@
         <module>real-estate-gateway</module>
         <module>real-estate-recalc</module>
         <module>real-estate-external-api-module</module>
+        <module>real-estate-user-management</module>
     </modules>
 
     <build>
