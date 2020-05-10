@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import webtech.externalapimodule.model.CurrentForecast;
 import webtech.externalapimodule.model.ForecastResponse;
 import webtech.externalapimodule.service.ForecastRetriever;
+import webtech.externalapimodule.model.DailyForecast;
 
 import webtech.externalapimodule.model.Location;
 import webtech.externalapimodule.model.MapAPIResponse;
@@ -38,6 +39,8 @@ public class RealEstateController {
 
     @Autowired
     private ExchangeRateRetriever exchangeRateRetriever;
+
+    private DailyForecast daily;
 
     public MapInfoRetriever getMapInfoRetriever() {
         return mapInfoRetriever;
@@ -113,6 +116,14 @@ public class RealEstateController {
     public String getCurrencies(@PathVariable("currency") String currency) {
         String exchangeRateResponse = exchangeRateRetriever.getExchange(String.valueOf(currency));
         return exchangeRateResponse;
+    }
+
+    @RequestMapping(value = "/dailyForecast/{lat},{lng}", method=RequestMethod.GET, produces="application/json")
+    public DailyForecast getDailyForecast(@PathVariable("lat") String lat,
+                                        @PathVariable("lng") String lng) {
+        DailyForecast forecastResponse = forecastRetriever.getForcastFor(String.valueOf(lat),
+                String.valueOf(lng)).getDaily();
+        return forecastResponse;
     }
 
 }
