@@ -34,6 +34,11 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
+	@RequestMapping(value = "/authenticated", method = RequestMethod.GET)
+	public ResponseEntity<?> isAuthenticated() {
+		return ResponseEntity.ok().build();
+	}
+
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
 		try {

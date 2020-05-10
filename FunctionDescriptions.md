@@ -117,6 +117,16 @@
     <li>Errors: 400 Bad Request, if the username or password is incorrect</li>
    </ul>
  </li>
+ <li>Is authenticated: 
+  <ul>
+    <li>Description: Check if the user is authenticated</li>
+    <li>Method: GET</li>
+    <li>Endpoint: .../authenticated</li>
+    <li>Required header: <i>authorization:Bearer {the given token from authentication}</i></li>
+    <li>Response: 200 OK</li>
+    <li>Errors: 401 Unauthorized, if the user is not authenticated or the token expired</li>
+   </ul>
+ </li>
  <li>Assign role: 
    <ul>
     <li>Description: Endpoint for assigning a role to a specified user</li>
