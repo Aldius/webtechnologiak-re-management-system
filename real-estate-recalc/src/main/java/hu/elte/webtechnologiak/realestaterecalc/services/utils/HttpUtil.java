@@ -18,7 +18,7 @@ public class HttpUtil {
 	public String sendPostRequest( final String url, final String body, final String token ) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setBearerAuth(token);
+		headers.setBearerAuth(token.split(" ")[1]);
 		HttpEntity<String> request = new HttpEntity<>(body, headers);
 		final ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, request, String.class);
 		if (!HttpStatus.OK.equals(responseEntity.getStatusCode())) {

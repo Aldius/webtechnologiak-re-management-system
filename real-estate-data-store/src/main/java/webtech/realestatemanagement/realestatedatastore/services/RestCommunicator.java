@@ -21,8 +21,8 @@ public class RestCommunicator {
     public String sendPostRequest(String url, Object body, String authToken) throws Exception {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(authToken);
-        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(body), headers);
+        headers.setBearerAuth(authToken.split(" ")[1]);
+        HttpEntity<String> request = new HttpEntity<>(body != null ? objectMapper.writeValueAsString(body) : null, headers);
         final ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, request, String.class);
         if (!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
             throw new IllegalStateException();

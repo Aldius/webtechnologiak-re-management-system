@@ -51,14 +51,14 @@ public class AppraisalService {
     }
 
     public Appraisal addAppraisal(Appraisal appraisal, String token) throws DataStoreException {
-        realEstateService.findByUId(appraisal.getRealEstateId());
+        //realEstateService.findByUId(appraisal.getRealEstateId());
         appraisal.setUniqueId("AP" + appraisalRepository.findMaxId().longValue());
         final Appraisal savedAppraisal = appraisalRepository.save(appraisal);
 
         final AppraisalDto appraisalDto = new AppraisalDto();
         appraisalDto.setUniqueId(savedAppraisal.getUniqueId());
         appraisalDto.setRealEstateUniqueId(savedAppraisal.getRealEstateId());
-        appraisalDto.setAppraisalDate(Date.from(savedAppraisal.getAppraisalDate().atZone(ZoneId.systemDefault()).toInstant()));
+        appraisalDto.setAppraisalDate(savedAppraisal.getAppraisalDate());
         appraisalDto.setAppraisedMarketValueOfBuildingsOccy(savedAppraisal.getAppraisedMarketValueOfBuildingsOccy());
         appraisalDto.setAppraisedMarketValueOfBuildingsCcy(savedAppraisal.getAppraisedMarketValueOfBuildingsCcy());
         appraisalDto.setAppraisedMarketValueOfLandOccy(savedAppraisal.getAppraisedMarketValueOfLandOccy());

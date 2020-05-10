@@ -13,7 +13,7 @@ public class AuthenticationService {
 	}
 
 	public void authenticate( final String token ) {
-		httpUtil.sendPostRequest("http://real-estate-management-user-mgmt/authenticated", "", token);
+		httpUtil.sendPostRequest("http://real-estate-management-user-mgmt/authenticated", null, token);
 	}
 
 }
