@@ -115,4 +115,18 @@ public class RealEstateController {
         return exchangeRateResponse;
     }
 
+    @RequestMapping(value = "/timezone/{lat},{lng}", method=RequestMethod.GET, produces="application/json")
+    public String getTimezone(@PathVariable("lat") String lat,
+                                        @PathVariable("lng") String lng) {
+        //MapAPIResponse mapResponse = this.getMapInfoRetriever().getMapInfoFor(city, state);
+        //Location loc = mapResponse.getGeometry().getLocation();
+        ForecastResponse forecastResponse = forecastRetriever.getForcastFor(String.valueOf(lat),
+                String.valueOf(lng));
+        System.out.println(forecastResponse.getTimezone());
+        String response = forecastResponse.getTimezone();
+        //forecastResponse.setFormattedAddress(mapResponse.getFormattedAddress());
+        //forecastResponse.setSearchAddress(buildSearchAddress(city,state));
+        return response;
+    }
+
 }
