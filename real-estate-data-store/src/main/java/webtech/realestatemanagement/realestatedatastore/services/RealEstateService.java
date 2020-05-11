@@ -53,7 +53,8 @@ public class RealEstateService {
         realEstateDto.setZipCode(realEstate.getZipCode());
 
         try {
-            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/add", realEstateDto, token));
+          System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/add", realEstateDto, token));
+          restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", realEstate, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,6 +84,7 @@ public class RealEstateService {
 
         try {
             restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/remove", realEstateDto, token);
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
         } catch (Exception e) {
             e.printStackTrace();
         }

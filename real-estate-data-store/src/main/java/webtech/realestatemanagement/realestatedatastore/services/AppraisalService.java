@@ -66,10 +66,11 @@ public class AppraisalService {
 
         try {
             System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/add", appraisalDto, token));
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", appraisal, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+      
         return savedAppraisal;
     }
 
@@ -77,8 +78,14 @@ public class AppraisalService {
         realEstateService.findByUId(appraisal.getRealEstateId());
         Appraisal current = findByUId(appraisal.getUniqueId());
         appraisal.setVersion(current.getVersion());
+        appraisal = appraisalRepository.save(appraisal);
 
-        return appraisalRepository.save(appraisal);
+        try {
+            restCommunicator.sendPutRequest("http://real-estate-recalc/appraisal/update", appraisal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appraisal;
     }
 
     public Appraisal deleteAppraisal(String uId, String token) throws DataStoreException {
@@ -91,6 +98,7 @@ public class AppraisalService {
 
         try {
             System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/remove", appraisalDto, token));
+          restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
         } catch (Exception e) {
             e.printStackTrace();
         }
