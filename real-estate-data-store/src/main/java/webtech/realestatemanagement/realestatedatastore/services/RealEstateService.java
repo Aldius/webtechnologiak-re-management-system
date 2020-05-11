@@ -40,7 +40,7 @@ public class RealEstateService {
                 .orElseThrow(() -> new DataStoreException("Real estate by unique id " + uId + " not found!"));
     }
 
-    public RealEstate addRealEstate(RealEstate realEstate) {
+    public RealEstate addRealEstate(RealEstate realEstate, String token) {
         realEstate.setUniqueId("RE" + realEstateRepository.findMaxId().longValue());
         realEstate = realEstateRepository.save(realEstate);
 
@@ -53,7 +53,7 @@ public class RealEstateService {
         realEstateDto.setZipCode(realEstate.getZipCode());
 
         try {
-            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/add", realEstateDto));
+            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/add", realEstateDto, token));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class RealEstateService {
         return realEstate;
     }
 
-    public RealEstate deleteRealEstate(String uId) throws DataStoreException {
+    public RealEstate deleteRealEstate(String uId, String token) throws DataStoreException {
         RealEstate current = findByUId(uId);
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
         current = realEstateRepository.save(current);
@@ -82,7 +82,7 @@ public class RealEstateService {
         realEstateDto.setUniqueId(current.getUniqueId());
 
         try {
-            restCommunicator.sendPutRequest("http://real-estate-recalc/notification/realEstate/remove", realEstateDto);
+            restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/remove", realEstateDto, token);
         } catch (Exception e) {
             e.printStackTrace();
         }

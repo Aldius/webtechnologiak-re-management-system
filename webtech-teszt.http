@@ -1,0 +1,76 @@
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "Asdf1234",
+  "email": "test@test.com",
+  "fullName": "Test user"
+}
+
+###
+
+POST http://localhost:8080/authenticate
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "Asdf1234"
+}
+
+###
+
+POST http://localhost:8080/role/assign?username=testuser1&roleName=RiskManager
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJleHAiOjE1ODkyMzMyNTgsImlhdCI6MTU4OTIxNTI1OH0.wTVwSksLSrkkwAGK64ET4VKqPxua3UEC1P4ERuTiTmetiImds4kf9UXCrV81FsvcDvk2j-zL_tme5T6MFCpGag
+
+###
+
+POST http://localhost:8080/authenticated
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJleHAiOjE1ODkyMzM1MDUsImlhdCI6MTU4OTIxNTUwNX0.knnDty3KqqHVcbCivHzjF1Utj68jx0xq97s11lzH1P69zfpocvO1cyo80XDDNizNduRmP1n1c2OOtQfondAxeA
+Content-Type: application/json
+
+###
+
+POST http://localhost:8100/realEstate/add
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJleHAiOjE1ODkyMzM1MDUsImlhdCI6MTU4OTIxNTUwNX0.knnDty3KqqHVcbCivHzjF1Utj68jx0xq97s11lzH1P69zfpocvO1cyo80XDDNizNduRmP1n1c2OOtQfondAxeA
+Content-Type: application/json
+
+{
+  "country": "Hungary",
+  "city": "Zalaegerszeg",
+  "street": "Helikon+utca",
+  "streetNumber": "14",
+  "zipCode": "8900",
+  "livingArea": 83,
+  "landArea": 300,
+  "mainType": 0,
+  "subType": 1,
+  "constructionYear": 1982
+}
+
+
+###
+
+POST http://localhost:8100/appraisal/add
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJleHAiOjE1ODkyMzM1MDUsImlhdCI6MTU4OTIxNTUwNX0.knnDty3KqqHVcbCivHzjF1Utj68jx0xq97s11lzH1P69zfpocvO1cyo80XDDNizNduRmP1n1c2OOtQfondAxeA
+Content-Type: application/json
+
+{
+"appraisalName": "Kovacs Janos",
+"appraisalDate": "2020-02-01",
+"realEstateId": "RE0",
+"valuationType": 1,
+"zipCode": "8900",
+"appraisedMarketValueOfBuildingsOccy": 10000000,
+"appraisedMarketValueOfBuildingsCcy": "HUF",
+"appraisedMarketValueOfLandOccy": 2000000,
+"appraisedMarketValueOfLandCcy": "HUF"
+}
+
+###
+
+POST http://localhost:8200/recalc/run/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJleHAiOjE1ODkyMzM1MDUsImlhdCI6MTU4OTIxNTUwNX0.knnDty3KqqHVcbCivHzjF1Utj68jx0xq97s11lzH1P69zfpocvO1cyo80XDDNizNduRmP1n1c2OOtQfondAxeA
+Content-Type: application/json
+
+
