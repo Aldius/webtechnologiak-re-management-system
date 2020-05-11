@@ -98,7 +98,7 @@ public class AppraisalService {
 
         try {
             System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/appraisal/remove", appraisalDto, token));
-          restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
+          restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current, token);
         } catch (Exception e) {
             e.printStackTrace();
         }

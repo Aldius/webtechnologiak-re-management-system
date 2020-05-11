@@ -84,7 +84,7 @@ public class RealEstateService {
 
         try {
             restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/remove", realEstateDto, token);
-            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
+            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
