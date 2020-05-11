@@ -19,7 +19,19 @@ import javax.persistence.*;
 public class RealEstate extends BaseEntity {
 
     @Column(nullable = false)
-    private String address;
+    private String country;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column
+    private String street;
+
+    @Column
+    private String streetNumber;
+
+    @Column
+    private String zipCode;
 
     @Column
     private double livingArea;

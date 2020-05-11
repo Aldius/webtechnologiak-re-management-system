@@ -1,15 +1,11 @@
 package webtech.realestatemanagement.realestatedatastore.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.SessionScope;
 import webtech.realestatemanagement.realestatedatastore.model.BaseEntity;
 import webtech.realestatemanagement.realestatedatastore.model.entities.RealEstate;
+import webtech.realestatemanagement.realestatedatastore.model.entities.dto.RealEstateDto;
 import webtech.realestatemanagement.realestatedatastore.model.repositories.RealEstateRepository;
 import webtech.realestatemanagement.realestatedatastore.services.exceptions.DataStoreException;
 
@@ -44,13 +40,21 @@ public class RealEstateService {
                 .orElseThrow(() -> new DataStoreException("Real estate by unique id " + uId + " not found!"));
     }
 
-    public RealEstate addRealEstate(RealEstate realEstate) {
+    public RealEstate addRealEstate(RealEstate realEstate, String token) {
         realEstate.setUniqueId("RE" + realEstateRepository.findMaxId().longValue());
         realEstate = realEstateRepository.save(realEstate);
 
+        RealEstateDto realEstateDto = new RealEstateDto();
+        realEstateDto.setUniqueId(realEstate.getUniqueId());
+        realEstateDto.setCountry(realEstate.getCountry());
+        realEstateDto.setCity(realEstate.getCity());
+        realEstateDto.setStreet(realEstate.getStreet());
+        realEstateDto.setStreetNumber(realEstate.getStreetNumber());
+        realEstateDto.setZipCode(realEstate.getZipCode());
+
         try {
-            System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/realEstate/add", realEstate));
-            restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", realEstate);
+          System.out.println(restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/add", realEstateDto, token));
+          restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/add", realEstate, token);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,21 +66,24 @@ public class RealEstateService {
         realEstate.setVersion(current.getVersion());
         realEstate = realEstateRepository.save(realEstate);
 
-        try {
+        /*try {
             restCommunicator.sendPutRequest("http://real-estate-recalc/realEstate/update", realEstate);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         return realEstate;
     }
 
-    public RealEstate deleteRealEstate(String uId) throws DataStoreException {
+    public RealEstate deleteRealEstate(String uId, String token) throws DataStoreException {
         RealEstate current = findByUId(uId);
         current.setStatus(BaseEntity.INACTIVE_ENTITY_STATUS);
         current = realEstateRepository.save(current);
 
+        RealEstateDto realEstateDto = new RealEstateDto();
+        realEstateDto.setUniqueId(current.getUniqueId());
+
         try {
-            restCommunicator.sendPutRequest("http://real-estate-recalc/realEstate/delete", current);
+            restCommunicator.sendPostRequest("http://real-estate-recalc/notification/realEstate/remove", realEstateDto, token);
             restCommunicator.sendPostRequest("http://real-estate-document-handling/DataStoreEntity/delete", current);
         } catch (Exception e) {
             e.printStackTrace();

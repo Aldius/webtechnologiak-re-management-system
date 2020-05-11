@@ -1,40 +1,233 @@
 package hu.elte.webtechnologiak.realestaterecalc.model.entities;
 
-import hu.elte.webtechnologiak.realestaterecalc.model.BaseEntity;
-import hu.elte.webtechnologiak.realestaterecalc.model.utils.RealEstateMainType;
-import hu.elte.webtechnologiak.realestaterecalc.model.utils.RealEstateSubType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "RealEstates")
+@Table(name = "T_REALESTATE")
 public class RealEstate extends BaseEntity {
 
-    @Column(nullable = false)
-    private String address;
+	@JsonIgnore
+	@OneToMany(mappedBy = "realEstate")
+	private List<Appraisal> appraisals;
 
-    @Column
-    private double livingArea;
+	@Basic
+	private Double marketValueOccy;
 
-    @Column
-    private double landArea;
+	@Basic
+	private String marketValueCcy;
 
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private RealEstateMainType mainType;
+	@Basic
+	private Double marketValueHuf;
 
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private RealEstateSubType subType;
+	@Basic
+	private Double marketValueUsd;
 
-    @Column
-    private int constructionYear;
+	@Basic
+	private Double marketValueEur;
+
+	@Basic
+	private Double weatherDiscountedValueOccy;
+
+	@Basic
+	private String weatherDiscountedValueCcy;
+
+	@Basic
+	private Double weatherDiscountedValueHuf;
+
+	@Basic
+	private Double weatherDiscountedValueUsd;
+
+	@Basic
+	private Double weatherDiscountedValueEur;
+
+	@Basic
+	private Double longitude;
+
+	@Basic
+	private Double latitude;
+
+	@Basic
+	private String country;
+
+	@Basic
+	private String city;
+
+	@Basic
+	private String street;
+
+	@Basic
+	private String streetNumber;
+
+	@Basic
+	private String zipCode;
+
+	public List<Appraisal> getAppraisals() {
+		return appraisals;
+	}
+
+	public void setAppraisals( List<Appraisal> appraisals ) {
+		this.appraisals = appraisals;
+	}
+
+	public Double getMarketValueOccy() {
+		return marketValueOccy;
+	}
+
+	public void setMarketValueOccy( Double marketValueOccy ) {
+		this.marketValueOccy = marketValueOccy;
+	}
+
+	public String getMarketValueCcy() {
+		return marketValueCcy;
+	}
+
+	public void setMarketValueCcy( String marketValueCcy ) {
+		this.marketValueCcy = marketValueCcy;
+	}
+
+	public Double getMarketValueHuf() {
+		return marketValueHuf;
+	}
+
+	public void setMarketValueHuf( Double marketValueHuf ) {
+		this.marketValueHuf = marketValueHuf;
+	}
+
+	public Double getMarketValueUsd() {
+		return marketValueUsd;
+	}
+
+	public void setMarketValueUsd( Double marketValueUsd ) {
+		this.marketValueUsd = marketValueUsd;
+	}
+
+	public Double getMarketValueEur() {
+		return marketValueEur;
+	}
+
+	public void setMarketValueEur( Double marketValueEur ) {
+		this.marketValueEur = marketValueEur;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude( Double longitude ) {
+		this.longitude = longitude;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude( Double latitude ) {
+		this.latitude = latitude;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry( String country ) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity( String city ) {
+		this.city = city;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet( String street ) {
+		this.street = street;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber( String streetNumber ) {
+		this.streetNumber = streetNumber;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode( String zipCode ) {
+		this.zipCode = zipCode;
+	}
+
+	public Double getWeatherDiscountedValueOccy() {
+		return weatherDiscountedValueOccy;
+	}
+
+	public void setWeatherDiscountedValueOccy( Double weatherDiscountedValueOccy ) {
+		this.weatherDiscountedValueOccy = weatherDiscountedValueOccy;
+	}
+
+	public String getWeatherDiscountedValueCcy() {
+		return weatherDiscountedValueCcy;
+	}
+
+	public void setWeatherDiscountedValueCcy( String weatherDiscountedValueCcy ) {
+		this.weatherDiscountedValueCcy = weatherDiscountedValueCcy;
+	}
+
+	public Double getWeatherDiscountedValueHuf() {
+		return weatherDiscountedValueHuf;
+	}
+
+	public void setWeatherDiscountedValueHuf( Double weatherDiscountedValueHuf ) {
+		this.weatherDiscountedValueHuf = weatherDiscountedValueHuf;
+	}
+
+	public Double getWeatherDiscountedValueUsd() {
+		return weatherDiscountedValueUsd;
+	}
+
+	public void setWeatherDiscountedValueUsd( Double weatherDiscountedValueUsd ) {
+		this.weatherDiscountedValueUsd = weatherDiscountedValueUsd;
+	}
+
+	public Double getWeatherDiscountedValueEur() {
+		return weatherDiscountedValueEur;
+	}
+
+	public void setWeatherDiscountedValueEur( Double weatherDiscountedValueEur ) {
+		this.weatherDiscountedValueEur = weatherDiscountedValueEur;
+	}
+
+	@Override
+	public String toString() {
+		return "RealEstate{" +
+			       "marketValueOccy=" + marketValueOccy +
+			       ", marketValueCcy='" + marketValueCcy + '\'' +
+			       ", marketValueHuf=" + marketValueHuf +
+			       ", marketValueUsd=" + marketValueUsd +
+			       ", marketValueEur=" + marketValueEur +
+			       ", longitude=" + longitude +
+			       ", latitude=" + latitude +
+			       ", country='" + country + '\'' +
+			       ", city='" + city + '\'' +
+			       ", street='" + street + '\'' +
+			       ", streetNumber='" + streetNumber + '\'' +
+			       ", zipCode='" + zipCode + '\'' +
+			       ", status=" + status +
+			       '}';
+	}
+
 }

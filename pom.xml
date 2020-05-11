@@ -24,6 +24,7 @@
         <module>real-estate-recalc</module>
         <module>real-estate-external-api-module</module>
         <module>real-estate-document-handling</module>
+        <module>real-estate-user-management</module>
     </modules>
 
     <build>

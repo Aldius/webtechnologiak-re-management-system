@@ -22,6 +22,9 @@ import webtech.externalapimodule.model.Location;
 import webtech.externalapimodule.model.MapAPIResponse;
 import webtech.externalapimodule.service.MapInfoRetriever;
 
+
+import webtech.externalapimodule.service.ExchangeRateRetriever;
+
 @RestController
 @RequestMapping("/externalapis")
 public class RealEstateController {
@@ -32,6 +35,9 @@ public class RealEstateController {
 
     @Autowired
     private MapInfoRetriever mapInfoRetriever;
+
+    @Autowired
+    private ExchangeRateRetriever exchangeRateRetriever;
 
     public MapInfoRetriever getMapInfoRetriever() {
         return mapInfoRetriever;
@@ -47,6 +53,14 @@ public class RealEstateController {
 
     public void setForecastRetriever(ForecastRetriever forecastRetriever) {
         this.forecastRetriever = forecastRetriever;
+    }
+
+    public ExchangeRateRetriever getExchangeRateRetriever() {
+        return exchangeRateRetriever;
+    }
+
+    public void setExchangeRateRetriever(ExchangeRateRetriever exchangeRateRetriever) {
+        this.exchangeRateRetriever = exchangeRateRetriever;
     }
     /*
     @GetMapping("/all")
@@ -74,16 +88,16 @@ public class RealEstateController {
 
     //in the url use "+" between place names, i.e. location/Budapest,Pázmány+Péter+stny.+1c,1117
     @RequestMapping(value = "/location/{city},{publicSpace},{state}", method=RequestMethod.GET, produces="application/json")
-    public ForecastResponse getForecast(@PathVariable("city") String city,
+    public Location getLocationWithForecast(@PathVariable("city") String city,
                                         @PathVariable("publicSpace") String publicSpace,
                                         @PathVariable("state") String state) {
         MapAPIResponse mapResponse = this.getMapInfoRetriever().getMapInfoFor(city, publicSpace, state);
         Location loc = mapResponse.getGeometry().getLocation();
-        ForecastResponse forecastResponse = forecastRetriever.getForcastFor(String.valueOf(loc.getLatitude()),
+        /*ForecastResponse forecastResponse = forecastRetriever.getForcastFor(String.valueOf(loc.getLatitude()),
                 String.valueOf(loc.getLongitude()));
         forecastResponse.setFormattedAddress(mapResponse.getFormattedAddress());
-        forecastResponse.setSearchAddress(buildSearchAddress(city,state));
-        return forecastResponse;
+        forecastResponse.setSearchAddress(buildSearchAddress(city,state));*/
+        return loc;
     }
 
 
@@ -93,6 +107,12 @@ public class RealEstateController {
         builder.append(",");
         builder.append(state);
         return builder.toString();
+    }
+
+    @RequestMapping(value = "/currencies/{currency}", method=RequestMethod.GET, produces="application/json")
+    public String getCurrencies(@PathVariable("currency") String currency) {
+        String exchangeRateResponse = exchangeRateRetriever.getExchange(String.valueOf(currency));
+        return exchangeRateResponse;
     }
 
 }
